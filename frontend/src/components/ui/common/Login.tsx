@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import type { ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { signInUser } from '../../../feature/auth/authSlice';
 import type { AppDispatch } from '../../../store/store';
-import { signUpNewUser } from '../../../feature/auth/authSlice';
 
-export default function SignUp() {
+export default function Login() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [authing, setAuthing] = useState<boolean>(false);
@@ -18,12 +17,12 @@ export default function SignUp() {
         setAuthing(true);
         setError('');
         try {
-            const res = await dispatch(signUpNewUser({ email, password })).unwrap();
-            console.log('Sign up successful:', res);
-            navigate('/login');
+            const res = await dispatch(signInUser({ email, password })).unwrap();
+            console.log('Login successful:', res);
+            navigate('/dashboard');
         } catch (err: any) {
-            console.error('Sign up error:', err);
-            setError(err?.message || 'Failed to sign up');
+            console.error('Login error:', err);
+            setError(err.message || 'Failed to login');
         } finally {
             setAuthing(false);
         }
@@ -36,43 +35,43 @@ export default function SignUp() {
     return (
         <div className='w-full h-screen flex'>
             {/* Left half of the screen - background styling */}
-            <div className='w-1/2 h-full flex flex-col bg-[#282c34] items-center justify-center' />
+            <div className='w-1/2 h-full flex flex-col bg-[#282c34] items-center justify-center'></div>
 
-            {/* Right half of the screen - sign up form */}
+            {/* Right half of the screen - login form */}
             <div className='w-1/2 h-full bg-[#1a1a1a] flex flex-col p-20 justify-center'>
                 <div className='w-full flex flex-col max-w-[450px] mx-auto'>
                     {/* Header section */}
                     <div className='w-full flex flex-col mb-10 text-white'>
-                        <h3 className='text-4xl font-bold mb-2'>Sign Up</h3>
-                        <p className='text-lg mb-4'>Welcome! Please create your account.</p>
+                        <h3 className='text-4xl font-bold mb-2'>Login</h3>
+                        <p className='text-lg mb-4'>Welcome Back! Please enter your details.</p>
                     </div>
 
-                    {/* Input fields */}
+                    {/* Inputs */}
                     <div className='w-full flex flex-col mb-6'>
                         <input
                             type='email'
                             placeholder='Email'
                             className='w-full text-white py-2 mb-4 bg-transparent border-b border-gray-500 focus:outline-none focus:border-white'
                             value={email}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <input
                             type='password'
                             placeholder='Password'
                             className='w-full text-white py-2 mb-4 bg-transparent border-b border-gray-500 focus:outline-none focus:border-white'
                             value={password}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
 
-                    {/* Sign up button */}
+                    {/* Login Button */}
                     <div className='w-full flex flex-col mb-4'>
                         <button
                             className='w-full bg-transparent border border-white text-white my-2 font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer'
                             onClick={handleLogin}
                             disabled={authing}
                         >
-                            Sign Up With Email and Password
+                            Log In With Email and Password
                         </button>
                     </div>
 
@@ -81,26 +80,26 @@ export default function SignUp() {
 
                     {/* Divider */}
                     <div className='w-full flex items-center justify-center relative py-4'>
-                        <div className='w-full h-[1px] bg-gray-500' />
+                        <div className='w-full h-[1px] bg-gray-500'></div>
                         <p className='text-lg absolute text-gray-500 bg-[#1a1a1a] px-2'>OR</p>
                     </div>
 
-                    {/* Google signup button */}
+                    {/* Google Button */}
                     <button
-                        className='w-full bg-white text-black font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-not-allowed mt-7 opacity-50'
+                        className='w-full bg-white text-black font-semibold rounded-md p-4 text-center flex items-center justify-center cursor-pointer mt-7'
                         onClick={signInWithGoogle}
                         disabled={true}
                     >
-                        Sign Up With Google (Coming Soon)
+                        Log In With Google
                     </button>
                 </div>
 
-                {/* Link to login */}
+                {/* Sign Up Link */}
                 <div className='w-full flex items-center justify-center mt-10'>
                     <p className='text-sm font-normal text-gray-400'>
-                        Already have an account?{' '}
+                        Don't have an account?{' '}
                         <span className='font-semibold text-white cursor-pointer underline'>
-                            <a href='/login'>Log In</a>
+                            <a href='/signup'>Sign Up</a>
                         </span>
                     </p>
                 </div>
