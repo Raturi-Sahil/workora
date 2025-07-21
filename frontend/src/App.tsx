@@ -1,5 +1,6 @@
 import { Dashboard, HomePage } from "./pages"
-
+import Login from "./components/ui/common/Login"
+import SignUp from "./components/ui/common/Signup"
 
 interface User {
   loggedIn : boolean
